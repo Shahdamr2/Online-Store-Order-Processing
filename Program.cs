@@ -9,113 +9,114 @@ namespace Online_Store_Order_Processing
         static void Main(string[] args)
         {
             List<Product> catalog = ProductCatalog.Products;
+            
             #region Task 01 - Smart Product Search
 
-            //// Func<Product, bool> is used because the filter
-            //// takes a Product and returns true or false.
+            // Func<Product, bool> is used because the filter
+            // takes a Product and returns true or false.
 
-            //static List<Product> SearchProducts(List<Product> products,Func<Product, bool> filter)
-            //{
-            //    List<Product> result = new();
+            static List<Product> SearchProducts(List<Product> products, Func<Product, bool> filter)
+            {
+                List<Product> result = new();
 
-            //    foreach (Product product in products)
-            //    {
-            //        if (filter(product))
-            //        {
-            //            result.Add(product);
-            //        }
-            //    }
+                foreach (Product product in products)
+                {
+                    if (filter(product))
+                    {
+                        result.Add(product);
+                    }
+                }
 
-            //    return result;
-            //}
-
-
-            //// 1. All Electronics products
-            //List<Product> electronics = SearchProducts(catalog, p => p.Category == "Electronics");
-
-            //Console.WriteLine("--- Electronics ---");
-
-            //foreach (Product product in electronics)
-            //{
-            //    Console.WriteLine(
-            //        $"{product.Name} - ${product.Price} (Stock: {product.Stock})");
-            //}
+                return result;
+            }
 
 
-            //// 2. Products cheaper than $50
-            //List<Product> under50 = SearchProducts(catalog, p => p.Price < 50);
+            // 1. All Electronics products
+            List<Product> electronics = SearchProducts(catalog, p => p.Category == "Electronics");
 
-            //Console.WriteLine();
-            //Console.WriteLine("--- Under $50 ---");
+            Console.WriteLine("--- Electronics ---");
 
-            //foreach (Product product in under50)
-            //{
-            //    Console.WriteLine(
-            //        $"{product.Name} - ${product.Price} (Stock: {product.Stock})");
-            //}
-
-
-            //// 3. Products that are in stock
-            //List<Product> inStock = SearchProducts(catalog, p => p.Stock > 0);
-
-            //Console.WriteLine();
-            //Console.WriteLine("--- In Stock ---");
-
-            //foreach (Product product in inStock)
-            //{
-            //    Console.WriteLine(
-            //        $"{product.Name} - ${product.Price} (Stock: {product.Stock})");
-            //}
+            foreach (Product product in electronics)
+            {
+                Console.WriteLine(
+                    $"{product.Name} - ${product.Price} (Stock: {product.Stock})");
+            }
 
 
-            //// 4. Clothing products under $100
-            //List<Product> clothingUnder100 =SearchProducts(catalog,p => p.Category == "Clothing" && p.Price < 100);
+            // 2. Products cheaper than $50
+            List<Product> under50 = SearchProducts(catalog, p => p.Price < 50);
 
-            //Console.WriteLine();
-            //Console.WriteLine("--- Clothing Under $100 ---");
+            Console.WriteLine();
+            Console.WriteLine("--- Under $50 ---");
 
-            //foreach (Product product in clothingUnder100)
-            //{
-            //    Console.WriteLine(
-            //        $"{product.Name} - ${product.Price} (Stock: {product.Stock})");
-            //}
+            foreach (Product product in under50)
+            {
+                Console.WriteLine(
+                    $"{product.Name} - ${product.Price} (Stock: {product.Stock})");
+            }
+
+
+            // 3. Products that are in stock
+            List<Product> inStock = SearchProducts(catalog, p => p.Stock > 0);
+
+            Console.WriteLine();
+            Console.WriteLine("--- In Stock ---");
+
+            foreach (Product product in inStock)
+            {
+                Console.WriteLine(
+                    $"{product.Name} - ${product.Price} (Stock: {product.Stock})");
+            }
+
+
+            // 4. Clothing products under $100
+            List<Product> clothingUnder100 = SearchProducts(catalog, p => p.Category == "Clothing" && p.Price < 100);
+
+            Console.WriteLine();
+            Console.WriteLine("--- Clothing Under $100 ---");
+
+            foreach (Product product in clothingUnder100)
+            {
+                Console.WriteLine(
+                    $"{product.Name} - ${product.Price} (Stock: {product.Stock})");
+            }
 
             #endregion
             #region Task 03.1 - Print Reports
 
-            //// Action<Product> is used because we want to perform an action
-            //// on each product without returning a value.
+            // Action<Product> is used because we want to perform an action
+            // on each product without returning a value.
 
-            //static void PrintReport(List<Product> products,Action<Product> action)
-            //{
-            //    foreach (Product product in products)
-            //    {
-            //        action(product);
-            //    }
-            //}
-
-
-            //// Scenario 1 - Short Report
-
-            //Console.WriteLine();
-            //Console.WriteLine("--- Short Report ---");
-
-            //PrintReport(catalog, p =>
-            //{
-            //    Console.WriteLine($"{p.Name} - ${p.Price}");
-            //});
+            static void PrintReport(List<Product> products, Action<Product> action)
+            {
+                foreach (Product product in products)
+                {
+                    action(product);
+                }
+            }
 
 
-            //// Scenario 2 - Detailed Report
+            // Scenario 1 - Short Report
 
-            //Console.WriteLine();
-            //Console.WriteLine("--- Detailed Report ---");
+            Console.WriteLine();
+            Console.WriteLine("--- Short Report ---");
 
-            //PrintReport(catalog, p =>
-            //{
-            //    Console.WriteLine(
-            //        $"[{p.Category}] {p.Name} | Price: ${p.Price} | Stock: {p.Stock}");
-            //});
+            PrintReport(catalog, p =>
+            {
+                Console.WriteLine($"{p.Name} - ${p.Price}");
+            });
+
+
+            // Scenario 2 - Detailed Report
+
+            Console.WriteLine();
+            Console.WriteLine("--- Detailed Report ---");
+
+            PrintReport(catalog, p =>
+            {
+                Console.WriteLine(
+                    $"[{p.Category}] {p.Name} | Price: ${p.Price} | Stock: {p.Stock}");
+            });
 
             #endregion
             #region Task 03.2 - Transform Products
@@ -167,6 +168,38 @@ namespace Online_Store_Order_Processing
             foreach (string item in priceLabels)
             {
                 Console.WriteLine(item);
+            }
+
+            #endregion
+            #region Task 03.3 - Filter Products
+
+            // Predicate<Product> is used because it checks a condition
+            // and returns true or false for each product.
+
+            static List<Product> FilterProducts(List<Product> products,Predicate<Product> condition)
+            {
+                List<Product> result = new();
+
+                foreach (Product product in products)
+                {
+                    if (condition(product))
+                    {
+                        result.Add(product);
+                    }
+                }
+
+                return result;
+            }
+
+            Console.WriteLine();
+            Console.WriteLine("--- Low-Stock Alert ---");
+
+            List<Product> lowStock = FilterProducts(catalog, p => p.Stock < 20);
+
+            foreach (Product product in lowStock)
+            {
+                Console.WriteLine(
+                    $"[LOW STOCK] {product.Name}: only {product.Stock} left!");
             }
 
             #endregion
