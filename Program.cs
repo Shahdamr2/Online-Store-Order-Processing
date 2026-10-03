@@ -83,39 +83,91 @@ namespace Online_Store_Order_Processing
             #endregion
             #region Task 03.1 - Print Reports
 
-            // Action<Product> is used because we want to perform an action
-            // on each product without returning a value.
+            //// Action<Product> is used because we want to perform an action
+            //// on each product without returning a value.
 
-            static void PrintReport(List<Product> products,Action<Product> action)
+            //static void PrintReport(List<Product> products,Action<Product> action)
+            //{
+            //    foreach (Product product in products)
+            //    {
+            //        action(product);
+            //    }
+            //}
+
+
+            //// Scenario 1 - Short Report
+
+            //Console.WriteLine();
+            //Console.WriteLine("--- Short Report ---");
+
+            //PrintReport(catalog, p =>
+            //{
+            //    Console.WriteLine($"{p.Name} - ${p.Price}");
+            //});
+
+
+            //// Scenario 2 - Detailed Report
+
+            //Console.WriteLine();
+            //Console.WriteLine("--- Detailed Report ---");
+
+            //PrintReport(catalog, p =>
+            //{
+            //    Console.WriteLine(
+            //        $"[{p.Category}] {p.Name} | Price: ${p.Price} | Stock: {p.Stock}");
+            //});
+
+            #endregion
+            #region Task 03.2 - Transform Products
+
+            // Func<Product, string> is used because we take a Product
+            // and return a transformed string.
+
+            static List<string> TransformProducts(
+                List<Product> products,
+                Func<Product, string> transform)
             {
+                List<string> result = new();
+
                 foreach (Product product in products)
                 {
-                    action(product);
+                    result.Add(transform(product));
                 }
+
+                return result;
             }
 
 
-            // Scenario 1 - Short Report
+            // Scenario 3 - Summary List
 
             Console.WriteLine();
-            Console.WriteLine("--- Short Report ---");
+            Console.WriteLine("--- Summary List ---");
 
-            PrintReport(catalog, p =>
+            List<string> summary = TransformProducts(
+                catalog,
+                p => $"{p.Name} (${p.Price})"
+            );
+
+            foreach (string item in summary)
             {
-                Console.WriteLine($"{p.Name} - ${p.Price}");
-            });
+                Console.WriteLine(item);
+            }
 
 
-            // Scenario 2 - Detailed Report
+            // Scenario 4 - Price Labels
 
             Console.WriteLine();
-            Console.WriteLine("--- Detailed Report ---");
+            Console.WriteLine("--- Price Labels ---");
 
-            PrintReport(catalog, p =>
+            List<string> priceLabels = TransformProducts(
+                catalog,
+                p => $"{p.Name}: {(p.Price > 100 ? "Expensive!" : "Affordable")}"
+            );
+
+            foreach (string item in priceLabels)
             {
-                Console.WriteLine(
-                    $"[{p.Category}] {p.Name} | Price: ${p.Price} | Stock: {p.Stock}");
-            });
+                Console.WriteLine(item);
+            }
 
             #endregion
 
